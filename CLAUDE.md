@@ -8,8 +8,7 @@ that break either surface are unacceptable.
 
 ## Structure
 
-- One folder per project, named to match the code repo.
-- Each folder has a `README.md` as the entry point.
+- [projects/](projects/README.md) — one folder per project, named to match the code repo; each has a `README.md`.
 - `ideas/` — experiment ideas and directions not yet tied to a specific project.
 - `papers/` — paper notes and reading list.
 
