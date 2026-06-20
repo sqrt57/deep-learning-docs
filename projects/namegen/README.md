@@ -12,6 +12,36 @@ Character-level language model for name generation.
 3. ✅ Simple one-layer NN equivalent to bigrams
 4. MLP
 
+## Models
+
+Progressive architecture study from statistical baseline to deep RNNs:
+
+| Model | Params | Test loss |
+|---|---|---|
+| BigramsModel (statistical) | — | 2.55 |
+| OneLayerBigramModel | 1,024 | 2.61 |
+| EmbeddingMLP small | 2,046 | 2.46 |
+| EmbeddingMLP big (8-gram context) | 39,088 | 1.97 |
+| RNN small | 4,346 | 2.25 |
+| RNN big (8-gram context) | 176,688 | 1.71 |
+| LSTM small | 19,796 | 2.10 |
+| LSTM big (8-gram context) | 1,147,488 | **1.39** |
+
+## Architecture Notes
+
+- All models predict next character from a preceding context window
+- EmbeddingMLP: `Embedding → concat → Linear → tanh → Linear`
+- RNN/LSTM: custom gate implementations (not `nn.RNN`/`nn.LSTM`)
+- LSTM: separate forget-input gate, cell update gate, output gate
+
+## Training
+
+- Dataset: UK towns and counties, 37,238 examples, alphabet size 32
+- Optimizer: AdamW, lr=1e-3
+- Loss: CrossEntropyLoss (ignore_index=-1 for padding)
+- Batch size: 32 (MLP), 128 (RNN/LSTM); 3,000 steps
+- Generation: temperature sampling
+
 ## Data
 
 - UK towns and counties — scraped from townscountiespostcodes.co.uk
