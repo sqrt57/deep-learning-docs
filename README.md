@@ -4,6 +4,10 @@ Working notes, paper references, and experiment ideas across personal deep learn
 
 Covers architecture notes, training results, links to papers being implemented, and ideas for next experiments. Not a library — a research notebook meant to grow alongside the code.
 
+## References — [references.md](references.md)
+
+Papers and articles referenced across projects.
+
 ## Projects — [projects/](projects/README.md)
 
 | Project | Repo | Description |
