@@ -22,6 +22,39 @@ Status: `todo` · `in progress` · `done` · `blocked`
 
 ---
 
+## D1 — Extract CharTokenizer from Dataset
+
+**Status:** todo
+
+**Description:** Refactor `Dataset` to extract a `CharTokenizer` class, mirroring the structure in namegen-jax. Currently the alphabet construction and character↔index mappings live inside `Dataset`; they should be a standalone, reusable object.
+
+**Architecture:**
+
+```python
+class CharTokenizer:
+    def __init__(self, strings: list[str])
+    def dict_size(self) -> int          # vocabulary size (nalphabet)
+    def str_to_indices(self, s: str) -> list[int]
+    def indices_to_str(self, indices) -> str
+```
+
+- Alphabet built from input strings, ordered by character frequency (most common first), `_` prepended as index 0.
+- `Dataset.__init__` takes a `CharTokenizer`; alphabet construction removed from it.
+- `predict.py` / `generate()` switches from `dataset.itoc` to `tokenizer.indices_to_str()`.
+- Prerequisite for T1: tokenizer should be built from train names only, not the full dataset.
+
+**Acceptance criteria:**
+- `CharTokenizer` in its own file (`tokenizer.py`)
+- `Dataset` accepts a tokenizer; no alphabet logic inside it
+- `generate()` and `calculate_loss()` use tokenizer for encode/decode
+- All existing notebooks and training scripts work unchanged
+
+**Testing:** Encode then decode a known string; assert round-trip is identical.
+
+**Estimate:** 2h
+
+---
+
 ## T1 — Train/test split
 
 **Status:** todo
