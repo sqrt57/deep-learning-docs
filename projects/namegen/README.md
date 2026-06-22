@@ -10,7 +10,12 @@ Character-level language model for name generation.
 1. ✅ Get several names datasets
 2. ✅ Simple bigrams model
 3. ✅ Simple one-layer NN equivalent to bigrams
-4. MLP
+4. ✅ MLP
+
+See [plan.md](plan.md) for detailed work items. Reference legend:
+- `I#` — Infrastructure
+- `M#` — Models
+- `B#` — Bugs
 
 ## Models
 
