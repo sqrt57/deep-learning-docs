@@ -23,6 +23,7 @@
 - [Arulkumaran et al. 2017 — A Brief Survey of Deep Reinforcement Learning](https://arxiv.org/abs/1708.05866)
 - [Vaswani et al. 2017 — Attention Is All You Need](https://arxiv.org/abs/1706.03762) — Transformer, multi-head attention; used in: makemore study
 - [Xie et al. 2017 — Aggregated Residual Transformations for Deep Neural Networks](https://arxiv.org/abs/1611.05431) — used in: [solve-cifar10](projects/solve-cifar10/README.md)
+- [Wu & He 2018 — Group Normalization](https://arxiv.org/abs/1803.08494) — normalization over channel groups; batch-size-independent alternative to BatchNorm
 - [Loshchilov & Hutter 2019 — Decoupled Weight Decay Regularization](https://arxiv.org/abs/1711.05101) — AdamW; used in: [namegen](projects/namegen/README.md), [namegen-jax](projects/namegen-jax/README.md), [lenet5](projects/lenet5/README.md), [solve-cifar10](projects/solve-cifar10/README.md)
 - [Misra 2019 — Mish: A Self Regularized Non-Monotonic Activation Function](https://arxiv.org/abs/1908.08681) — used in: [explore](projects/explore/README.md)
 - [Khan et al. 2019 — A Survey of the Recent Architectures of Deep Convolutional Neural Networks](https://arxiv.org/abs/1901.06032)

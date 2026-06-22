@@ -8,13 +8,15 @@ Status: `todo` · `in progress` · `done` · `blocked`
 
 ## E1 — Read and process Karpathy recipe article
 
-**Status:** todo
+**Status:** done
 
 **Description:** Read Karpathy's "A Recipe for Training Neural Networks" article. Extract key findings, failure modes, and debugging heuristics relevant to this project. Codify reusable rules into this repo (e.g. a `rules.md` at the repo root).
 
 **Acceptance criteria:**
 - Reusable rules and heuristics written up and committed to this repo
 - Actionable items linked to or added as new plan tasks
+
+**Result:** [playbook.md](../../playbook.md) written at repo root.
 
 **Estimate:** 2h
 
