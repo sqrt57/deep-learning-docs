@@ -1,8 +1,22 @@
 # Work Plan
 
-Legend: `I` Infrastructure (config, build, logging, libraries) · `T` Training · `D` Data · `B` Bug · `M` Model
+Legend: `I` Infrastructure (config, build, logging, libraries) · `T` Training · `D` Data · `B` Bug · `M` Model · `E` Explore (reading, research, external resources)
 
 Status: `todo` · `in progress` · `done` · `blocked`
+
+---
+
+## E1 — Read and process Karpathy recipe article
+
+**Status:** todo
+
+**Description:** Read Karpathy's "A Recipe for Training Neural Networks" article. Extract key findings, failure modes, and debugging heuristics relevant to this project. Codify reusable rules into this repo (e.g. a `rules.md` at the repo root).
+
+**Acceptance criteria:**
+- Reusable rules and heuristics written up and committed to this repo
+- Actionable items linked to or added as new plan tasks
+
+**Estimate:** 2h
 
 ---
 
@@ -197,3 +211,31 @@ Status: `todo` · `in progress` · `done` · `blocked`
 **Results:** No new model entries; update README training section to document the split ratios.
 
 **Estimate:** 2h
+
+---
+
+## E2 — Explore Karpathy blog
+
+**Status:** todo
+
+**Description:** Browse Karpathy's blog for posts relevant to character-level language models, training practices, and architecture choices. Identify posts worth deep-reading.
+
+**Acceptance criteria:**
+- List of relevant posts noted with one-line summaries
+- High-value posts queued for deeper reading (E-type tasks or paper notes)
+
+**Estimate:** 1h
+
+---
+
+## E3 — Explore Christopher Olah blog
+
+**Status:** todo
+
+**Description:** Browse Christopher Olah's blog (colah.github.io) for posts on RNNs, LSTMs, and neural network internals. Identify posts worth deep-reading.
+
+**Acceptance criteria:**
+- List of relevant posts noted with one-line summaries
+- High-value posts queued for deeper reading
+
+**Estimate:** 1h
