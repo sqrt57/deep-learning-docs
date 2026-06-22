@@ -18,6 +18,7 @@ See [plan.md](plan.md) for detailed work items. Reference legend:
 - `D#` — Data
 - `M#` — Models
 - `B#` — Bugs
+- `E#` — Explore (reading, research)
 
 ## Models
 
@@ -36,18 +37,7 @@ Progressive architecture study from statistical baseline to deep RNNs:
 
 ## Architecture Notes
 
-- All models predict next character from a preceding context window
-- EmbeddingMLP: `Embedding → concat → Linear → tanh → Linear`
-- RNN/LSTM: custom gate implementations (not `nn.RNN`/`nn.LSTM`)
-- LSTM: separate forget-input gate, cell update gate, output gate
-
-## Training
-
-- Dataset: UK towns and counties, 37,238 examples, alphabet size 32
-- Optimizer: AdamW, lr=1e-3
-- Loss: CrossEntropyLoss (ignore_index=-1 for padding)
-- Batch size: 32 (MLP), 128 (RNN/LSTM); 3,000 steps
-- Generation: temperature sampling
+See [architecture.md](architecture.md) for the full overview.
 
 ## Data
 
@@ -63,3 +53,4 @@ Progressive architecture study from statistical baseline to deep RNNs:
 
 - [Andrej Karpathy: makemore](https://github.com/karpathy/makemore)
 - [Andrej Karpathy: A Recipe for Training Neural Networks](https://karpathy.github.io/2019/04/25/recipe/)
+- [Cookiecutter Data Science](https://cookiecutter-data-science.drivendata.org/) — project structure and notebook naming convention
