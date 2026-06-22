@@ -26,30 +26,9 @@ Status: `todo` · `in progress` · `done` · `blocked`
 
 **Status:** todo
 
-**Description:** Refactor `Dataset` to extract a `CharTokenizer` class, mirroring the structure in namegen-jax. Currently the alphabet construction and character↔index mappings live inside `Dataset`; they should be a standalone, reusable object.
+**Description:** Refactor `Dataset` to extract a standalone `CharTokenizer`; prerequisite for T1.
 
-**Architecture:**
-
-```python
-class CharTokenizer:
-    def __init__(self, strings: list[str])
-    def dict_size(self) -> int          # vocabulary size (nalphabet)
-    def str_to_indices(self, s: str) -> list[int]
-    def indices_to_str(self, indices) -> str
-```
-
-- Alphabet built from input strings, ordered by character frequency (most common first), `_` prepended as index 0.
-- `Dataset.__init__` takes a `CharTokenizer`; alphabet construction removed from it.
-- `predict.py` / `generate()` switches from `dataset.itoc` to `tokenizer.indices_to_str()`.
-- Prerequisite for T1: tokenizer should be built from train names only, not the full dataset.
-
-**Acceptance criteria:**
-- `CharTokenizer` in its own file (`tokenizer.py`)
-- `Dataset` accepts a tokenizer; no alphabet logic inside it
-- `generate()` and `calculate_loss()` use tokenizer for encode/decode
-- All existing notebooks and training scripts work unchanged
-
-**Testing:** Encode then decode a known string; assert round-trip is identical.
+**Spec:** [d1-char-tokenizer.md](d1-char-tokenizer.md)
 
 **Estimate:** 2h
 
@@ -61,15 +40,7 @@ class CharTokenizer:
 
 **Description:** Hold out a test set and report test loss after training. Currently eval runs on the training batch, so no metric is meaningful until this is fixed.
 
-**Architecture:** Split dataset before any training; pass test set to trainer separately. Trainer computes and logs test loss after final step.
-
-**Acceptance criteria:**
-- Test loss reported at end of training run
-- Test set never seen during training or hyperparameter selection
-
-**Testing:** Verify test set size matches expected fraction; confirm test loss is higher than train loss (sanity check for no leakage).
-
-**Results:** Retrain all existing models and update the README models table with corrected test losses.
+**Spec:** [t1-train-test-split.md](t1-train-test-split.md)
 
 **Estimate:** 2h
 
