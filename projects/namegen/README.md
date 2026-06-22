@@ -13,7 +13,9 @@ Character-level language model for name generation.
 4. ✅ MLP
 
 See [plan.md](plan.md) for detailed work items. Reference legend:
-- `I#` — Infrastructure
+- `I#` — Infrastructure (config, build, logging, libraries)
+- `T#` — Training
+- `D#` — Data
 - `M#` — Models
 - `B#` — Bugs
 

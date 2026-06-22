@@ -1,10 +1,14 @@
 # Work Plan
 
-Legend: `I` Infrastructure · `B` Bug · `M` Model
+Legend: `I` Infrastructure (config, build, logging, libraries) · `T` Training · `D` Data · `B` Bug · `M` Model
+
+Status: `todo` · `in progress` · `done` · `blocked`
 
 ---
 
-## I1 — Train/test split
+## T1 — Train/test split
+
+**Status:** todo
 
 **Description:** Hold out a test set and report test loss after training. Currently eval runs on the training batch, so no metric is meaningful until this is fixed.
 
@@ -24,6 +28,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 
 ## B1 — Label masking off-by-one
 
+**Status:** todo
+
 **Description:** `labels_line[len(line)+1:] = -1` leaves `labels_line[len(line)]` as 0 (padding token), so the loss trains on a spurious prediction at the word boundary.
 
 **Architecture:** `dataset.py:65-66` only. One-line fix.
@@ -41,6 +47,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 ---
 
 ## B2 — LSTM output gate missing sigmoid
+
+**Status:** todo
 
 **Description:** `hidden = hidden_gate * F.tanh(cell)` uses raw linear output as the gate — no sigmoid means it's not actually gating.
 
@@ -60,6 +68,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 
 ## B3 — LSTM forget/input gates share one linear layer
 
+**Status:** todo
+
 **Description:** Single `forget_input` layer outputs `2*nstate` then is split — both halves come from the same computation, preventing independent gate learning.
 
 **Architecture:** `model.py:149`. Replace with two separate linear layers `W_f` and `W_i`, each outputting `nstate`.
@@ -78,6 +88,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 
 ## B4 — Generation context window double-padding
 
+**Status:** todo
+
 **Description:** When `x.shape[1] < context_size`, the short sequence is passed as-is, then `EmbeddingMLP` pads it internally — double-padding the first few generation steps.
 
 **Architecture:** `predict.py:7-19`. Pre-pad input to exactly `context_size` with padding token before every model call.
@@ -95,6 +107,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 ---
 
 ## B5–B8 — Minor fixes
+
+**Status:** todo
 
 **Description:** Four small cleanup items.
 
@@ -119,6 +133,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 
 ## M1 — Implement GRU
 
+**Status:** todo
+
 **Description:** Add a GRU model following the same custom-gate pattern as the existing RNN/LSTM (not `nn.GRU`).
 
 **Architecture:**
@@ -141,6 +157,8 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 
 ## M2 — Implement Transformer
 
+**Status:** todo
+
 **Description:** Add a decoder-only Transformer for character-level generation.
 
 **Architecture:**
@@ -161,9 +179,11 @@ Legend: `I` Infrastructure · `B` Bug · `M` Model
 
 ---
 
-## I2 — Add validation split
+## T2 — Add validation split
 
-**Description:** Add a val split between train and test for hyperparameter tuning and early stopping. Depends on I1.
+**Status:** todo
+
+**Description:** Add a val split between train and test for hyperparameter tuning and early stopping. Depends on T1.
 
 **Architecture:** Three-way split of the dataset. Val loss logged during training; test loss reported only at the end.
 
