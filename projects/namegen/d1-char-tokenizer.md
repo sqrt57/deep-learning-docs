@@ -2,65 +2,57 @@
 
 **Prerequisite for:** T1 (tokenizer must be built from train names only, not the full dataset).
 
+**Status: done.**
+
 ## Problem
 
-Alphabet construction and character↔index mappings live inside `Dataset`. This couples tokenization to dataset loading, prevents building the vocabulary from a subset of names (required for T1's train/test split), and duplicates logic already refactored in namegen-jax.
+Alphabet construction and character↔index mappings lived inside `Dataset`. This coupled tokenization to dataset loading, prevented building the vocabulary from a subset of names (required for T1's train/test split), and duplicated logic already refactored in namegen-jax.
 
-## Spec
+## Design
 
-### CharTokenizer interface
+`Dataset` class eliminated entirely. Replaced by:
+
+- `CharTokenizer` — builds and owns the vocabulary.
+- `Batch` namedtuple — pure tensor container `(features, labels)`, no tokenizer attached.
+- `make_dataset(strings, tokenizer) -> Batch` — factory function; `strings` and `max_word_length` are local variables, nothing stored beyond the tensors.
+
+Callers hold the tokenizer separately and pass it where needed (`generate`, `calculate_loss`, `Trainer`, `train_bigram_model`).
+
+## CharTokenizer interface
 
 ```python
 class CharTokenizer:
+    alphabet: str                              # public; '_' at index 0
+
     def __init__(self, strings: list[str])
-    def dict_size(self) -> int          # vocabulary size (nalphabet)
+    def dict_size(self) -> int
     def str_to_indices(self, s: str) -> list[int]
     def indices_to_str(self, indices) -> str
 ```
 
-- Alphabet built from input strings, ordered by character frequency (most common first).
-- `_` prepended as index 0 (padding token).
-- Lives in its own file: `tokenizer.py`.
+- Alphabet ordered by character frequency (most common first), `_` prepended as index 0.
+- `str_to_indices` returns `list[int]` — no torch dependency on the tokenizer.
 
-### Interface changes
+## Files changed
 
-**`tokenizer.py`** — new file containing `CharTokenizer`.
-
-**`dataset.py`**
-
-- `Dataset.__init__` accepts a `CharTokenizer` instead of building the alphabet internally.
-- Remove alphabet construction logic from `Dataset`.
-
-**`predict.py`**
-
-- `generate()` switches from `dataset.itoc` to `tokenizer.indices_to_str()`.
-- `calculate_loss()` uses tokenizer for encode/decode where applicable.
-
-### What does not change
-
-- `Dataset` API beyond the tokenizer argument — feature/label tensor construction is unchanged.
-- No training runs required; this is a pure refactor with identical behavior.
-
-## Acceptance criteria
-
-- `CharTokenizer` in its own file (`tokenizer.py`).
-- `Dataset` accepts a tokenizer; no alphabet logic inside it.
-- `generate()` and `calculate_loss()` use tokenizer for encode/decode.
-- All existing notebooks and training scripts work unchanged.
+| File | Change |
+|---|---|
+| `namegen/tokenizer.py` | New — `CharTokenizer` |
+| `namegen/dataset.py` | `Dataset` replaced by `Batch` + `make_dataset`; `InfiniteDataLoader.next()` returns `Batch`; `uk_towns_and_counties` returns `tuple[Batch, CharTokenizer]` |
+| `namegen/modeling/predict.py` | `generate` and `calculate_loss` take `Batch` + `tokenizer` separately |
+| `namegen/modeling/train.py` | `train_bigram_model` and `Trainer` take `Batch` + `tokenizer` separately |
+| `pyproject.toml` | Added pytest dev dependency; fixed setuptools package discovery |
+| `tests/test_tokenizer.py` | New — round-trip, alphabet, dict_size tests |
+| `tests/test_dataset.py` | New — shape, padding, masking tests |
 
 ## Verification
 
 ```python
-tokenizer = CharTokenizer(["alice", "bob", "charlie"])
-assert tokenizer.indices_to_str(tokenizer.str_to_indices("alice")) == "alice"
+t = CharTokenizer(["alice", "bob", "charlie"])
+assert t.indices_to_str(t.str_to_indices("alice")) == "alice"
+assert t.alphabet[0] == '_'
+assert t.dict_size() == 4  # _, a, b, c (for CharTokenizer(["abc"]))
 ```
-
-## Implementation steps
-
-1. Create `tokenizer.py` with `CharTokenizer`.
-2. Update `Dataset.__init__` to accept a `CharTokenizer`; remove internal alphabet construction.
-3. Update `predict.py` to use `tokenizer.indices_to_str()`.
-4. Add round-trip unit test.
 
 ## Estimate
 
