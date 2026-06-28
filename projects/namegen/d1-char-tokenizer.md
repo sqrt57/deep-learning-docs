@@ -40,7 +40,7 @@ class CharTokenizer:
 | `namegen/tokenizer.py` | New — `CharTokenizer` |
 | `namegen/dataset.py` | `Dataset` replaced by `Batch` + `make_dataset`; `InfiniteDataLoader.next()` returns `Batch`; `uk_towns_and_counties` returns `tuple[Batch, CharTokenizer]` |
 | `namegen/modeling/predict.py` | `generate` and `calculate_loss` take `Batch` + `tokenizer` separately |
-| `namegen/modeling/train.py` | `train_bigram_model` and `Trainer` take `Batch` + `tokenizer` separately |
+| `namegen/modeling/train.py` | `train_bigram_model` and `Trainer` take `Batch` + `nalphabet: int` (not tokenizer) |
 | `pyproject.toml` | Added pytest dev dependency; fixed setuptools package discovery |
 | `tests/test_tokenizer.py` | New — round-trip, alphabet, dict_size tests |
 | `tests/test_dataset.py` | New — shape, padding, masking tests |

@@ -24,7 +24,7 @@ Status: `todo` · `in progress` · `done` · `blocked`
 
 ## D1 — Extract CharTokenizer from Dataset
 
-**Status:** todo
+**Status:** done
 
 **Description:** Refactor `Dataset` to extract a standalone `CharTokenizer`; prerequisite for T1.
 
